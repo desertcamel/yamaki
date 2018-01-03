@@ -1,0 +1,60 @@
+{% extends "base_template.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+   {{block.super}}: Categories List
+{% endblock title %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'bakery-portal-index' %}">Home</a></li>
+<li class="breadcrumb-item active">Category</li>
+<li class="breadcrumb-item"><a href="#">Commodities</a></li>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+  <div class="mb-4">
+    <a href="{% url 'new-category' %}" class="btn btn-primary">New Category</a>
+  </div>
+
+  {% if category_list %}
+  <table class="table table-striped mb-4">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Category</th>
+        <th>Commodity</th>
+        <th>Description</th>
+        <th>API Sources</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category in category_list %}
+      {% url 'category-detail' category.pk as category_url %}
+        <tr>
+          <td>
+            <p class="mb-0">
+              <a href="#">{{ category.name }}</a>
+            </p>
+          </td>
+          <td>Commodity</td>
+          <td>Description</td>
+          <td>API Sources</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% else %}
+      <p>There are no categories!</p>
+    {% endif %}       
+
+{% endblock content %}
+
+{% block footer %}
+
+{{block.super}}
+{% endblock footer %}
+
+
+
+

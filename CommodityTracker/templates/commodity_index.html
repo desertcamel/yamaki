@@ -1,0 +1,38 @@
+
+{% extends 'base_template.html' %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Commodity Tracker</li>
+{% endblock %}
+
+{% block content %}
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Contents</th>
+        <th>Description</th>
+        <th>How Many?</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td> <a href="#">Categories</a> </td>
+          <td class="align-middle"> <small class="text-muted d-block">Description</small> </td>
+          <td class="align-middle"> 0 </td>
+        </tr>
+
+        <tr>
+            <td> <a href="#">Commodities</a> </td>
+            <td class="align-middle"> <small class="text-muted d-block">Description</small> </td>
+            <td class="align-middle"> 0 </td>
+        </tr>
+
+        <tr>
+        <td> <a href="#">Time Series</a> </td>
+        <td class="align-middle"> <small class="text-muted d-block">Description</small> </td>
+        <td class="align-middle"> 0 </td>
+        </tr>          
+
+    </tbody>
+  </table>
+{% endblock %}

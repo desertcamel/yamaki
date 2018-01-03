@@ -1,0 +1,98 @@
+{% extends "base_template.html" %}
+{% load widget_tweaks %}
+
+{% block title %}
+   {{block.super}}: Purchasing Health Check
+{% endblock title %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'bakery-portal-index' %}">Home</a></li>
+<li class="breadcrumb-item"> <a href="#"> CEO Suite </a></li>
+<li class="breadcrumb-item active">Purchasing & Commodities</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+PURCHASING HEALTH CHECK PLACEHOLDER
+
+<a href="{% url 'commodities-list' %}">Purchase and Commodity Analytics</a> <br>
+
+
+    <table class="table table-striped mb-4">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Category</th>
+            <th>Commodity</th>
+            <th>Description</th>
+            <th>API Sources</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td> <p>Benchmark Item</p>  
+                <small class="text-muted"> <a href="#">See Details</a></small>                  
+              </td>
+              <td> <p> Reference Commodity </p>
+                    <small class="text-muted"> <a href="#">See Details</a></small>                     
+              </td>
+              <td>KPIs</td>
+              <td>API Sources</td>
+            </tr>
+
+            <tr>
+                <td> <p>Benchmark Item</p>  
+                    <small class="text-muted"> <a href="#">See Details</a></small>                  
+                </td>
+                <td> <p> Reference Commodity </p>
+                        <small class="text-muted"> <a href="#">See Details</a></small>                     
+                </td>
+                <td>KPIs</td>
+                <td>API Sources</td>
+            </tr>
+
+            <tr>
+                <td> <p>Benchmark Item</p>  
+                    <small class="text-muted"> <a href="#">See Details</a></small>                  
+                </td>
+                <td> <p> Reference Commodity </p>
+                        <small class="text-muted"> <a href="#">See Details</a></small>                     
+                </td>
+                <td>KPIs</td>
+                <td>API Sources</td>
+            </tr>
+          
+        </tbody>
+    </table>
+
+
+
+<script type='text/javascript' 
+src='http://dashboards.biznessanalytics.com/javascripts/api/viz_v1.js'>
+</script>
+<div class='tableauPlaceholder' style='width: 1511px; height: 605px;'>
+    <object class='tableauViz' width='1511' height='605' style='display:none;'>
+        <param name='host_url' value='http%3A%2F%2Fdashboards.biznessanalytics.com%2F' /> 
+        <param name='embed_code_version' value='2' /> 
+        <param name='site_root' value='&#47;t&#47;DemoProjects' />
+        <param name='name' value='Accounts--CFOProfitabilityGrowth&#47;IncomeStatement' />
+        <param name='tabs' value='yes' />
+        <param name='toolbar' value='yes' />
+        <param name='showAppBanner' value='false' />
+        <param name='showShareOptions' value='true' />
+    </object>
+</div>
+
+
+
+
+{% endblock content %}
+
+{% block footer %}
+
+{{block.super}}
+{% endblock footer %}
+
+
+
+
+

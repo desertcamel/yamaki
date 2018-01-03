@@ -1,0 +1,22 @@
+{% extends 'base_template.html' %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'bakery-ceo-index' %}">iDEALytix Home</a></li>  
+<li class="breadcrumb-item active">Bakery Portal Home</li>
+{% endblock %}
+
+
+{% block content %}
+            <h1>Welcome to The Bakery CEO Suite Home Page</h1>
+
+        <a href="#">Sales Analytics</a> <br>
+        <a href="#">E-Commerce and Online Activity Analytics</a> <br>
+        <a href="#">Product Mix and Inventory Analytics</a> <br>
+        <a href="{% url 'purchasing-index-home' %}">Purchase and Commodity Analytics</a> <br>
+        <a href="#">Accounts Analytics</a> <br>
+        <a href="#">Board</a> <br>
+{%endblock%}
+
+
+{% block javascript %}
+{% endblock %}

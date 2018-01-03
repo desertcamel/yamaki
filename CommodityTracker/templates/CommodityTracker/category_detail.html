@@ -1,0 +1,32 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+
+
+
+<h3>Title: {{ category }}</h3>
+
+  <p><strong>Category:</strong> {{ category }}</p> <!-- author detail link not yet defined -->
+  <p><strong>Commodities:</strong> 
+
+    Number of Commodities: {{ category.commodity_set.count }} 
+    
+<table class="table" >
+        <thead class= "thead-inverse" >
+        <tr>
+          <th>Commodity Name</th>
+          <th>Commodity id</th>
+        </tr>
+        </thead>
+        
+        <tbody>
+           {% for commodity in category.commodity_set.all %} 
+            <tr>
+              <td><a href="{% url 'commodity-detail' commodity.pk %}">{{ commodity.name }}</a></td>
+              <td class="align-middle"> {{commodity.id}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+</table>
+
+{% endblock %}

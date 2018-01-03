@@ -1,0 +1,33 @@
+{{ content|safe }} 
+
+
+<div>
+    <h1>Source Code Produced</h1>
+<br><br>
+<h2>JSCODE: </h2>
+<br>
+{{jscode|safe}}
+
+<br>
+<h2>JSON: </h2> 
+<br>
+{{json|safe}}
+</div>
+
+
+<script>
+        google.load("visualization", "1", {packages:["table"]});
+        google.setOnLoadCallback(drawTable);
+        function drawTable() {
+
+        var json_table_my = new google.visualization.Table(document.getElementById('table_div_json_my'));
+        var json_data_my = new google.visualization.DataTable({{mydata|safe}});
+        json_table_my.draw(json_data_my, {showRowNumber: true});
+        }
+        </script>
+
+<H1>Table created using ToJSon</H1>
+<div id="table_div_json_my"></div>
+
+</body>
+</html>
