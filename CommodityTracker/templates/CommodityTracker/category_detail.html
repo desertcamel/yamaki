@@ -9,7 +9,7 @@
   <p><strong>Category:</strong> {{ category }}</p> <!-- author detail link not yet defined -->
   <p><strong>Commodities:</strong> 
 
-    Number of Commodities: {{ category.commodity_set.count }} 
+    Number of Commodities: {{ category.get_commodity_count }} 
     
 <table class="table" >
         <thead class= "thead-inverse" >
@@ -20,10 +20,10 @@
         </thead>
         
         <tbody>
-           {% for commodity in category.commodity_set.all %} 
+           {% for base_commodity in category.basecommodities.all %} 
             <tr>
-              <td><a href="{% url 'commodity-detail' commodity.pk %}">{{ commodity.name }}</a></td>
-              <td class="align-middle"> {{commodity.id}} </td>
+              <td><a href="{% url 'base-commodity-detail' base_commodity.pk %}">{{ base_commodity.name }}</a></td>
+              <td class="align-middle"> {{base_commodity.id}} </td>
             </tr>
             {% endfor %}
         </tbody>

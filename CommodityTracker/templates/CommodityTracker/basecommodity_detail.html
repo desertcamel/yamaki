@@ -1,0 +1,30 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+
+
+
+<h3>Title: {{ basecommodity }}</h3>
+
+  <p><strong>Base Commodity:</strong> {{ basecommodity }}</p> <!-- author detail link not yet defined -->
+  <p><strong>Commodities:</strong> 
+    
+<table class="table" >
+        <thead class= "thead-inverse" >
+        <tr>
+          <th>TimeSeries Name</th>
+          <th>Date</th>
+        </tr>
+        </thead>
+        
+        <tbody>
+           {% for timeseries in basecommodity.records.all %} 
+            <tr>
+              <td><a href="{% url 'timeseries-detail' base_commodity.pk %}">{{ timeseries.date }}</a></td>
+              <td class="align-middle"> {{timeseries.id}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+</table>
+
+{% endblock %}

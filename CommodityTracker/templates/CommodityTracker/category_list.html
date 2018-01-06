@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 
 {% block title %}
-   {{block.super}}: Categories List
+   {{block.super}}: Categories
 {% endblock title %}
 
 {% block breadcrumb %}
@@ -13,31 +13,22 @@
 
 {% block content %}
 
-  <div class="mb-4">
-    <a href="{% url 'new-category' %}" class="btn btn-primary">New Category</a>
-  </div>
 
   {% if category_list %}
   <table class="table table-striped mb-4">
     <thead class="thead-inverse">
       <tr>
         <th>Category</th>
-        <th>Commodity</th>
-        <th>Description</th>
-        <th>API Sources</th>
       </tr>
     </thead>
     <tbody>
-      {% for category in category_list %}
+      {% for cat in category_list %}
         <tr>
           <td>
             <p class="mb-0">
-              <a href="{% url 'category-detail' category.pk %}">{{ category.name }}</a>
+              <a href="{% url 'category-detail' cat.pk %}">{{ cat.name }}</a>
             </p>
           </td>
-          <td>Commodity</td>
-          <td>Description</td>
-          <td>API Sources</td>
         </tr>
       {% endfor %}
     </tbody>

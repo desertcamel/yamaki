@@ -1,0 +1,56 @@
+{% extends 'base_template.html' %}
+
+{% load static %}
+
+{% block title %} Purchase Commodity Form {% endblock %}
+
+
+
+{% block content %}
+ 
+    <div class="row">
+        <div class="col-sm-4">
+                <form method="post" enctype="multipart/form-data" class="mb-4">
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit" class="btn btn-success">Post a reply</button>
+                    </form>
+        </div>
+        <div class="col-sm-4">
+            <p>
+                description text 
+            </p>
+        </div>
+        <div class="col-sm-4">
+                <p>
+                    download link
+                    <a href="/static/downloads/commoditytracker/Quandl_soft.csv"> Quandl file</a>
+                </p>
+        </div>
+                        
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            Title: {{ basecommodity }}
+        </div>
+        
+        <div class="col-sm-12 text-right">
+            <a href="{% url 'purchase-commodity-detail' 1 %}" class="btn btn-primary">Benchmark against internal purchase</a>
+        </div>
+
+        <p><strong>commodity:</strong> {{ basecommodity }}</p> <!-- author detail link not yet defined -->
+
+    </div>
+
+{% endblock content %}
+
+
+{% block footer %}
+<h2> Category Footer </h2>
+{{block.super}}
+{% endblock footer %}
+
+
+
+

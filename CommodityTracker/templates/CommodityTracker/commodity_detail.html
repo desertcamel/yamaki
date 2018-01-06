@@ -19,12 +19,9 @@
     </div>
 
 
-    <h3>Title: {{ commodity }}</h3>
+    <h3>Title: {{ basecommodity }}</h3>
 
-    <p><strong>commodity:</strong> {{ commodity }}</p> <!-- author detail link not yet defined -->
-
-
-
+    <p><strong>commodity:</strong> {{ basecommodity }}</p> <!-- author detail link not yet defined -->
 
 
     <div class="card mb-2">
@@ -32,7 +29,7 @@
           <div class="row mb-3">
             <div class="col-10">
                 <H1>Historical Price Evolution</H1>
-                <div id="chart_div_json"></div>
+                <div style="height: 450px" id="chart_div_json"></div>
             </div>
             <div class="col-2 text-right">
               <small class="text-muted">some text</small>

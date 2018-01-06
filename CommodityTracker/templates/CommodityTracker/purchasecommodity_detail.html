@@ -1,0 +1,37 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+
+
+<h3>Title: {{ purchasecommodity }}</h3>
+
+  <p><strong>Purchase Commodity:</strong> {{ purchasecommodity }}</p> 
+    
+<table class="table" >
+    <thead class= "thead-inverse" >
+    <tr>
+        <th>Benchmark Commodities Name</th>
+        <th>Weight</th>
+    </tr>
+    </thead>
+    
+    <tbody>
+
+        <tr>
+            <td> <a href="{% url 'base-commodity-detail' purchasecommodity.benchmark1.id %}"> {{ purchasecommodity.benchmark1 }}</a></td>
+            <td > {{purchasecommodity.weight1}} </td>
+        </tr>
+
+        <tr>
+            <td><a href="{% url 'base-commodity-detail' purchasecommodity.benchmark2.id %}">{{ purchasecommodity.benchmark2 }}</a></td>
+            <td > {{purchasecommodity.weight2}} </td>
+        </tr>
+
+        <tr>
+            <td><a href="{% url 'base-commodity-detail' purchasecommodity.benchmark3.id %}">{{ purchasecommodity.benchmark3 }}</a></td>
+            <td > {{purchasecommodity.weight3}} </td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock %}
