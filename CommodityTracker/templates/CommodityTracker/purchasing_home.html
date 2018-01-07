@@ -1,90 +1,142 @@
 {% extends "base_template.html" %}
 {% load widget_tweaks %}
-
+{% block stylesheet %} 
+<link rel="stylesheet" href="/static/css/style3.css">
+{% endblock stylesheet%}
 {% block title %}
-   {{block.super}}: Purchasing Health Check
+   {{block.super}}: Categories
 {% endblock title %}
 
 {% block breadcrumb %}
-<li class="breadcrumb-item"><a href="{% url 'bakery-portal-index' %}">Home</a></li>
-<li class="breadcrumb-item"> <a href="#"> CEO Suite </a></li>
-<li class="breadcrumb-item active">Purchasing & Commodities</li>
+<li class="breadcrumb-item"><a href="{% url 'commodity-analytics-home' %}">Commodity Analytics Home</a></li>
+<li class="breadcrumb-item active">Purchasing Home</li>
 {% endblock breadcrumb %}
 
 {% block content %}
 
-PURCHASING HEALTH CHECK PLACEHOLDER
+<div class="w3-padding-32" >
+    <h3>  CATEGORIES AND BASE COMMODITIES  </h3>
+    <p>
+        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum 
+        deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non 
+        provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum 
+        fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis 
+        est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis 
+        voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis 
+        aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. 
+        Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias 
+        consequatur aut perferendis doloribus asperiores repellat."
+    </p>
+</div>
+    
+<div class="table-wrapper" >
 
-<a href="{% url 'commodities-list' %}">Purchase and Commodity Analytics</a> <br>
+  {% if category_list %}
+  <table class="table  mb-4 table-hover">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Categories</th>
+        <th>Base Commodities</th>
+        <th>KPIs</th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for cat in category_list %}
+        <tr>
+          <td class="w3-hover-shadow" >
+            <p class="mb-0">
+              <a href="{% url 'category-detail' cat.pk %}">{{ cat.name }}</a>
+            </p>
+            <small class="text-muted" > <a href="#" data-toggle="popover" data-trigger="focus" title="Description" data-content=" {{ cat.description }} ">See Description</a></small>                  
+          </td>
 
+          <td> 
+            <div class="w3-third w3-margin-bottom">
+                <ul class="w3-ul w3-center ">
+                {% for commodity in cat.basecommodities.all %}
+                    <li class="w3-padding-16 w3-hover-shadow">
+                            <a href="{% url 'base-commodity-detail' commodity.pk %}"> {{commodity.name}} </a> <br>
+                            <small class="text-muted"> <a href="#" data-toggle="popover" data-trigger="focus" title="Description" data-content=" {{ commodity.description }} ">See Description</a></small>                          
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+          </td>
+      <td  >KPIs</td>
+    </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-    <table class="table table-striped mb-4">
-        <thead class="thead-inverse">
-          <tr>
-            <th>Category</th>
-            <th>Commodity</th>
-            <th>Description</th>
-            <th>API Sources</th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr>
-              <td> <p>Benchmark Item</p>  
-                <small class="text-muted"> <a href="#">See Details</a></small>                  
-              </td>
-              <td> <p> Reference Commodity </p>
-                    <small class="text-muted"> <a href="#">See Details</a></small>                     
-              </td>
-              <td>KPIs</td>
-              <td>API Sources</td>
-            </tr>
-
-            <tr>
-                <td> <p>Benchmark Item</p>  
-                    <small class="text-muted"> <a href="#">See Details</a></small>                  
-                </td>
-                <td> <p> Reference Commodity </p>
-                        <small class="text-muted"> <a href="#">See Details</a></small>                     
-                </td>
-                <td>KPIs</td>
-                <td>API Sources</td>
-            </tr>
-
-            <tr>
-                <td> <p>Benchmark Item</p>  
-                    <small class="text-muted"> <a href="#">See Details</a></small>                  
-                </td>
-                <td> <p> Reference Commodity </p>
-                        <small class="text-muted"> <a href="#">See Details</a></small>                     
-                </td>
-                <td>KPIs</td>
-                <td>API Sources</td>
-            </tr>
-          
-        </tbody>
-    </table>
-
-
-
-<script type='text/javascript' 
-src='http://dashboards.biznessanalytics.com/javascripts/api/viz_v1.js'>
-</script>
-<div class='tableauPlaceholder' style='width: 1511px; height: 605px;'>
-    <object class='tableauViz' width='1511' height='605' style='display:none;'>
-        <param name='host_url' value='http%3A%2F%2Fdashboards.biznessanalytics.com%2F' /> 
-        <param name='embed_code_version' value='2' /> 
-        <param name='site_root' value='&#47;t&#47;DemoProjects' />
-        <param name='name' value='Accounts--CFOProfitabilityGrowth&#47;IncomeStatement' />
-        <param name='tabs' value='yes' />
-        <param name='toolbar' value='yes' />
-        <param name='showAppBanner' value='false' />
-        <param name='showShareOptions' value='true' />
-    </object>
+  {% else %}
+      <p>There are no categories!</p>
+    {% endif %}       
 </div>
 
+<div class="w3-padding-32" >
+    <h3>  CATEGORIES AND PURCHASE COMMODITIES  </h3>
+    <p>
+        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum 
+        deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non 
+        provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum 
+        fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis 
+        est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis 
+        voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis 
+        aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. 
+        Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias 
+        consequatur aut perferendis doloribus asperiores repellat."
+    </p>
+</div>
 
+<div class="table-wrapper" >
+    
+      {% if purchasecommodity_list %}
+      <table class="table table-hover mb-4">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Purchase Commodities</th>
+            <th>Benchmark Commodities</th>
+            <th>KPIs</th>
+        </tr>
+        </thead>
+        <tbody>
+          {% for pc in purchasecommodity_list %}
+            <tr>
+              <td class="w3-hover-shadow">
+                <p class="mb-0">
+                  <a href="{% url 'purchase-commodity-detail' pc.pk %}">{{ pc.name }}</a>
+                </p>
+                <small class="text-muted" > <a href="#" data-toggle="popover" data-trigger="focus" title="Description" data-content=" {{ pc.description }} ">See Description</a></small>                  
+              </td>
+    
+              <td> 
+                <div class="w3-third w3-margin-bottom">
+                    <ul class="w3-ul w3-center ">
+                       <li class="w3-padding-16 w3-hover-shadow">
+                            <a href="{% url 'base-commodity-detail' pc.benchmark1.pk %}"> {{pc.benchmark1.name}} </a> <br>
+                            <small class="text-muted"> <a href="#" data-toggle="popover" data-trigger="focus" title="Description" data-content=" {{ commodity.description }} ">See Description</a></small>                     
+                        </li>
+                        <li>
+                            <a href="{% url 'base-commodity-detail' pc.benchmark2.pk %}"> {{pc.benchmark2.name}} </a> <br>
+                            <small class="text-muted"> <a href="#" data-toggle="popover" data-trigger="focus" title="Description" data-content=" {{ commodity.description }} ">See Description</a></small>                     
+                        </li>
 
-
+                        <li>
+                            <a href="{% url 'base-commodity-detail' pc.benchmark3.pk %}"> {{pc.benchmark3.name}} </a> <br>
+                            <small class="text-muted"> <a href="#" data-toggle="popover" data-trigger="focus" title="Description" data-content=" {{ commodity.description }} ">See Description</a></small>                     
+                        </li>
+                    </ul>
+                </div>
+              </td>
+          <td>KPIs</td>
+        </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>There are no purchase commodities!</p>
+    {% endif %}       
+</div>
 {% endblock content %}
 
 {% block footer %}
@@ -92,7 +144,9 @@ src='http://dashboards.biznessanalytics.com/javascripts/api/viz_v1.js'>
 {{block.super}}
 {% endblock footer %}
 
+{% block javascript %}
+{{block.super}}
 
-
+{% endblock javascript %}
 
 

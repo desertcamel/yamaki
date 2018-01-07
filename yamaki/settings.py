@@ -43,10 +43,15 @@ INSTALLED_APPS = [
     'widget_tweaks',
 
     # My Apps
-    'CommodityTracker',
-    'accounts',
-    'boards',
     'idealytix',
+    'accounts',
+    'CommodityTracker',
+    'salesanalytics',
+    'webanalytics',
+    'customeranalytics',
+    'inventoryanalytics',
+    'accountsanalytics',
+    'boards',
 ]
 
 MIDDLEWARE = [

@@ -4,7 +4,7 @@
 <title>The Bakery CEO Suite</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href={% static 'css/bakery_ceo_home.css' %}>
+<link rel="stylesheet" href={% static 'css/idealytix.css' %}>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
 <style>
 body, html {
@@ -44,7 +44,7 @@ body, html {
 <!-- Header with image -->
 <header class="bgimg w3-display-container w3-grayscale-min" id="home">
   <div class="w3-display-bottomleft w3-center w3-padding-large w3-hide-small">
-    <span class="w3-tag"> <a href=" {% url 'bakery-portal-index' %} "> Enter Portal </a>  </span>
+    <span class="w3-tag"> <a href=" {% url 'commodity-analytics-home' %} "> Enter Portal </a>  </span>
   </div>
   <div class="w3-display-middle w3-center">
     <span class="w3-text-white" style="font-size:90px">the<br>Bakery CEO Suite</span>
@@ -53,7 +53,7 @@ body, html {
     <span class="w3-text-white">
     <form class="form-inline ml-auto">
       {% if user.is_authenticated %}   
-      <a href="{% url 'bakery-portal-index' %}"> {{ user.username }} </a>
+      <a href="{% url 'commodity-analytics-home' %}"> {{ user.username }} </a>
       {% else %}
       <a href="{% url 'login' %}" class="btn btn-outline-secondary">LOG IN</a>
       <br>

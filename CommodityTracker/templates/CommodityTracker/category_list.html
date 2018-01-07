@@ -1,48 +1,78 @@
 {% extends "base_template.html" %}
 {% load widget_tweaks %}
-
+{% block stylesheet %} 
+<link rel="stylesheet" href="/static/css/style3.css">
+{% endblock stylesheet%}
 {% block title %}
    {{block.super}}: Categories
 {% endblock title %}
 
 {% block breadcrumb %}
-<li class="breadcrumb-item"><a href="{% url 'bakery-portal-index' %}">Home</a></li>
-<li class="breadcrumb-item active">Category</li>
-<li class="breadcrumb-item"><a href="#">Commodities</a></li>
+<li class="breadcrumb-item"><a href="{% url 'commodity-analytics-home' %}">Commodity Analytics Home</a></li>
+<li class="breadcrumb-item active">Purchasing Home</li>
 {% endblock breadcrumb %}
 
 {% block content %}
 
 
-  {% if category_list %}
-  <table class="table table-striped mb-4">
-    <thead class="thead-inverse">
-      <tr>
-        <th>Category</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for cat in category_list %}
-        <tr>
-          <td>
-            <p class="mb-0">
-              <a href="{% url 'category-detail' cat.pk %}">{{ cat.name }}</a>
-            </p>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
 
-  {% else %}
-      <p>There are no categories!</p>
-    {% endif %}       
+
+{% if category_list %}
+<table class="table table-striped mb-4">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Category</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cat in category_list %}
+      <tr>
+        <td>
+          <p class="mb-0">
+            <a href="{% url 'category-detail' cat.pk %}">{{ cat.name }}</a>
+          </p>
+          <small class="text-muted" > <a href="#" data-toggle="popover" data-trigger="focus" title="Description" data-content=" {{ cat.description }} ">See Description</a></small>                  
+        </td>
+
+        <td> 
+          {% for commodity in cat.basecommodities.all %}
+          <div>
+              <p class="mb-0"> 
+                  <a href="{% url 'base-commodity-detail' commodity.pk %}"> {{commodity.name}} </a>
+
+              </p>
+              <small class="text-muted"> <a href="#" data-toggle="popover" data-trigger="focus" title="Description" data-content=" {{ commodity.description }} ">See Description</a></small>                     
+          </div>
+          {% endfor %}
+        </td>
+    <td>KPIs</td>
+  </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% else %}
+    <p>There are no categories!</p>
+  {% endif %}       
+ 
 
 {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
 
 {% block footer %}
 
 {{block.super}}
+
 {% endblock footer %}
 
 

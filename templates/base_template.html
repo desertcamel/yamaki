@@ -1,82 +1,121 @@
 <!doctype html>
-{% load static %}
+
 
 <html>
   <head>
     <meta charset="utf-8">
+    {% load static %}
     <title>{% block title %} CEO Suite Commodity Tracker...{% endblock title %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-    {% block stylesheet %} {% endblock stylesheet%}
+    <link rel="stylesheet" href="/static/css/style3.css">
+    {% block stylesheet %} 
+    {% endblock stylesheet%}
   </head>
   <body>
-  {% block body %}
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">Commodity Tracker</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="mainMenu">
-              {% if user.is_authenticated %}                
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          {{ user.username }}
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-                          <a class="dropdown-item" href="#">My account</a>
-                          <a class="dropdown-item" href="#">Change password</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
-                        </div>
-                      </li>
-                </ul>
-              {% else %}
-                <form class="form-inline ml-auto">
-                  <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
-                  <a href="{% url 'signup' %}" class="btn btn-primary ml-2">Sign up</a>
-                </form>
-              {% endif %}
-              </div>            
-          </div>
-      </nav>
 
-      <div class="container">
-        <ol class="breadcrumb my-4">
-        {% block breadcrumb %}  {% endblock breadcrumb %}
-        </ol>
+  <!-- Top container -->
+  <div class="w3-bar w3-top w3-teal w3-large" style="z-index:4">
+      <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+      <span class="w3-bar-item w3-right">Logo</span>
+          
+  </div>
+
+
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-teal w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container w3-row">
+      <div class="w3-col s4">
+        <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
       </div>
-    </header>
+      <div class="w3-col s8 w3-bar">
+        <span>Welcome, <strong>Mike</strong></span><br>
+        <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
+        <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
+        <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+      </div>
+    </div>
+    <hr>
+    <div class="w3-container">
+      <h5>Dashboard</h5>
+    </div>
+    <div class="w3-bar-block">
+      <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Close Menu</a>
+      <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>&nbsp; Overview</a>
+      <a href="{% url 'sales-analytics-home' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>&nbsp; Sales Analytics</a>
+      <a href="{% url 'web-analytics-home' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>&nbsp; Web Analytics</a>
+      <a href="{% url 'customer-analytics-home' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>&nbsp; Customer Analytics</a>
+      <a href="{% url 'inventory-analytics-home' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>&nbsp; Inventory Analytics</a>
+      <a href="{% url 'commodity-analytics-home' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>&nbsp; Purchase Analytics</a>
+      <a href="{% url 'accounts-analytics-home' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>&nbsp; Accounts Analytics</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>&nbsp; Settings</a><br><br>
+    </div>
+  </nav>
+  
+  
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+  
+  <script>
+      // Get the Sidebar
+      var mySidebar = document.getElementById("mySidebar");
+      
+      // Get the DIV with overlay effect
+      var overlayBg = document.getElementById("myOverlay");
+      
+      // Toggle between showing and hiding the sidebar, and add overlay effect
+      function w3_open() {
+          if (mySidebar.style.display === 'block') {
+              mySidebar.style.display = 'none';
+              overlayBg.style.display = "none";
+          } else {
+              mySidebar.style.display = 'block';
+              overlayBg.style.display = "block";
+          }
+      }
+      
+      // Close the sidebar with the close button
+      function w3_close() {
+          mySidebar.style.display = "none";
+          overlayBg.style.display = "none";
+      }
+      </script>
+      
+  
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main w3-sand" style="margin-left:300px;margin-top:43px;">
+    <div class="w3-container w3-padding-32 w3-margin">
 
-    <main>
-      <div class="container">
       {% block content %}
       ... default content ...
       {% endblock content %}
-      </div>
-    </main>
+
+    </div>
     
-    <footer class="w3-center w3-light-grey w3-padding-16 w3-large">
-        <div class="container">
+      <div class="footer">
         {% block footer %}
           <p></p>
           <h5>iDEALytix</h5>
           <p>Powered by <a href="www.biznessanalytics.com" title="iDEALytix" target="_blank" class="w3-hover-text-green">iDEALytix</a></p>
         {% endblock footer %}
       </div>
-    </footer>
 
 
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="{% static 'js/app.js' %}"></script>
+  <script src="{% static 'js/app.js' %}"></script>
+  <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+  <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 
-  </body>
-{% endblock body %}
-<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-<script src="{% static 'js/popper.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-{% block javascript %} {% endblock javascript %}
+  <script>
+      $(document).ready(function(){
+          $('[data-toggle="popover"]').popover();   
+      });
+      </script>
+
+  {% block javascript %} {% endblock javascript %}
+
+
+</body>
 </html>

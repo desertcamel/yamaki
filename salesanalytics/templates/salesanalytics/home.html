@@ -1,0 +1,39 @@
+{% extends "base_template.html" %}
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block title %}
+   {{block.super}}: Categories List
+{% endblock title %}
+
+{% block stylesheet %} 
+<style>
+body,h1 {font-family: "Raleway", sans-serif}
+body, html {height: 100%}
+.bgimg {
+    background-image: url("{% static '/img/webanalytics/forestbridge.jpg' %}");
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+</style>
+{% endblock stylesheet%}
+
+{% block content %}
+
+<script type='text/javascript' src='http://dashboards.biznessanalytics.com/javascripts/api/viz_v1.js'></script>
+<div class='tableauPlaceholder' style='width: 1511px; height: 850px;'>
+  <object class='tableauViz' width='1511' height='850' style='display:none;'>
+    <param name='host_url' value='http%3A%2F%2Fdashboards.biznessanalytics.com%2F' /> 
+    <param name='embed_code_version' value='2' /> 
+    <param name='site_root' value='&#47;t&#47;Misterbaker' />
+    <param name='name' value='SalesDashboards_Beta&#47;Home' />
+    <param name='tabs' value='yes' />
+    <param name='toolbar' value='yes' />
+    <param name='showAppBanner' value='false' />
+    <param name='showShareOptions' value='true' />
+  </object>
+</div>
+
+{% endblock content %}

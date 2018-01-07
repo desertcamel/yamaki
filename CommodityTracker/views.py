@@ -30,9 +30,21 @@ from datetime import date
 # Create your views here.
 
 
-def home(request):
-    logger.debug('#### LOGGER #### DISPLAY HOME PAGE#######')
-    return render( request, 'home.html',)
+class CommodityHome(generic.ListView):
+    model = Category
+    template_name = 'CommodityTracker/purchasing_home.html'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['category_list'] = Category.objects.all()
+        context['purchasecommodity_list'] = PurchaseCommodity.objects.all()
+        return context
+
+    def get_queryset(self):
+        return Category.objects.all().order_by('name')
+
 
 def PurchasingIndexView(request):
     return render( request, 'CommodityTracker/purchasing_home.html',)
@@ -121,7 +133,7 @@ class CommodityCreateView(generic.DetailView):
 
 
 def BaseCommodityDetailView(request, pk):
-    template = 'CommodityTracker/commodity_detail.html'
+    template = 'CommodityTracker/basecommodity_detail.html'
     base_commodity = BaseCommodity.objects.get(pk=pk)
 #    print (base_commodity)
 

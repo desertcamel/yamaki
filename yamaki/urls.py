@@ -20,7 +20,13 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 
 from idealytix import views as idealytix_views
-from CommodityTracker import views as commodity_views
+from accounts import views as accounts_views
+from salesanalytics import views as salesanalytics_views
+from webanalytics import views as webanalytics_views
+from customeranalytics import views as customeranalytics_views
+from inventoryanalytics import views as inventoryanalytics_views
+from accountsanalytics import views as accountsanalytics_views
+from CommodityTracker import views as purchaseanalytics_views
 from boards import views as boards_views
 
 #URL pattern mappings
@@ -30,10 +36,15 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url(r'^commodity/', include('CommodityTracker.urls')),
-    url(r'^forums/', include('boards.urls')),    
-    url(r'^accounts/', include('accounts.urls')),    
     url(r'^bakery/', include('idealytix.urls')),
+    url(r'^sales/', include('salesanalytics.urls')),
+    url(r'^web/', include('webanalytics.urls')),
+    url(r'^customer/', include('customeranalytics.urls')),
+    url(r'^inventory/', include('inventoryanalytics.urls')),
+    url(r'^commodity/', include('CommodityTracker.urls')),
+    url(r'^sales/', include('accountsanalytics.urls')),
+    url(r'^accounts/', include('accounts.urls')),    
+    url(r'^forums/', include('boards.urls')),    
 ]
 
 #Add Django site authentication urls (for login, logout, password management)
@@ -44,5 +55,4 @@ urlpatterns += [
 urlpatterns += [
     url(r'^admin/', admin.site.urls),
 ]
-
 

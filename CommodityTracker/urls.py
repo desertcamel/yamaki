@@ -4,7 +4,7 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.CommodityListView.as_view(), name='commodities-list'),
+    url(r'^$', views.CommodityHome.as_view(), name='commodity-analytics-home'),
 ]
 
 urlpatterns += [
