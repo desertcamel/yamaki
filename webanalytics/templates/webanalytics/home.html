@@ -7,32 +7,188 @@
    {{block.super}}: Categories List
 {% endblock title %}
 
-{% block stylesheet %} 
-<style>
-body,h1 {font-family: "Raleway", sans-serif}
-body, html {height: 100%}
-.bgimg {
-    background-image: url("{% static '/img/webanalytics/forestbridge.jpg' %}");
-    min-height: 100%;
-    background-position: center;
-    background-size: cover;
-}
-</style>
-{% endblock stylesheet%}
+{% block stylesheet %}
+  {{block.super}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
+{% endblock stylesheet %}
 
 {% block content %}
 
-<script type='text/javascript' src='http://dashboards.biznessanalytics.com/javascripts/api/viz_v1.js'></script>
-<div class='tableauPlaceholder' style='width: 1511px; height: 605px;'>
-  <object class='tableauViz' width='1511' height='605' style='display:none;'>
-    <param name='host_url' value='http%3A%2F%2Fdashboards.biznessanalytics.com%2F' /> 
-    <param name='embed_code_version' value='2' /> 
-    <param name='site_root' value='&#47;t&#47;Misterbaker' />
-    <param name='name' value='GoogleAnalyticsDashboardBeta&#47;GooogleAnalyticsIntegrationDemo' />
-    <param name='tabs' value='no' /><param name='toolbar' value='yes' />
-    <param name='showAppBanner' value='false' />
-    <param name='showShareOptions' value='true' />
-  </object>
-</div>
+
+
+<div class="w3-panel ">
+    <div class="w3-quarter">
+        <div class="w3-container w3-red w3-padding-16">
+        <div class="w3-left"><i class="fa fa-shopping-bag w3-xxxlarge"></i></div>
+        <div class="w3-right">
+            <h3>{{ num_branch }}</h3>
+        </div>
+        <div class="w3-clear"></div>
+        <a href="#" onclick="myFunction()">  <h4>Sales Analytics </h4> </a>
+        </div>
+    </div>
+
+    <div class="w3-quarter">
+        <div class="w3-container w3-blue w3-padding-16">
+        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
+        <div class="w3-right">
+            <h3>{{ num_customers }}</h3>
+        </div>
+        <div class="w3-clear"></div>
+        <a href="#" onclick="myFunction()"> <h4>Product and Brand Analysis</h4> </a>
+        </div>
+    </div>
+    
+    <div class="w3-quarter">
+        <div class="w3-container w3-teal w3-padding-16">
+        <div class="w3-left"><i class="fa fa-money w3-xxxlarge"></i></div>
+        <div class="w3-right">
+            <h3> {{ num_orders }} </h3>
+        </div>
+        <div class="w3-clear"></div>
+        <a href="#" onclick="myFunction()"> <h4>Market Share</h4> </a>
+        </div>
+    </div>
+
+    <div class="w3-quarter">
+        <div class="w3-container w3-orange w3-text-white w3-padding-16">
+        <div class="w3-left"><i class="fa fa-birthday-cake w3-xxxlarge"></i></div>
+        <div class="w3-right">
+            <h3> {{ num_occassions }} </h3>
+        </div>
+        <div class="w3-clear"></div>
+        <a href="#" onclick="myFunction()"> <h4>Competitor Analysis</h4> </a>
+        </div>
+    </div>
+</div>    
+
+<div class="w3-panel">
+  <div class="w3-row-padding" style="margin:0 -16px">
+    <div class="w3-third">
+      <h2> Dashboards</h1>
+        <div id="index_chart_div" ></div>
+    </div>        
+            
+    <div class="w3-twothird">
+        <h5>Views</h5>
+        <table class="w3-table w3-striped w3-white">
+          <tr>
+              <td><i class="fa fa-area-chart" style="font-size:24px;color:green;" onclick="myFunction()"></i></td>
+              <td>Daily Sales Reports</td>
+          </tr>
+          <tr>
+              <td><i class="fa fa-bar-chart" style="font-size:24px;color:green;" onclick="myFunction()"></i></td>
+              <td>Weekly Sales Views</td>
+            </tr>
+          <tr>
+              <td><i class="fa fa-line-chart" style="font-size:24px;color:green;" onclick="myFunction()"></i></td>
+              <td>Weekday & Time of Day Sales Views</td>
+          </tr>
+          <tr>
+              <td><i class="fa fa-globe" style="font-size:24px;color:green;" onclick="myFunction()"></i></td>
+              <td>Geography Sales Views</td>
+          </tr>
+          <tr>
+              <td><i class="fa fa-bank" style="font-size:24px;color:green;" onclick="myFunction()"></i></td>
+              <td>Outlet wise Sales Views</td>
+          </tr>
+          <tr>
+              <td><i class="fa fa-television" style="font-size:24px;color:green;" onclick="myFunction()"></i></td>
+              <td>Product wise Sales Views</td>
+          </tr>
+          <tr>
+              <td><i class="fa fa-pie-chart" style="font-size:24px;color:green;" onclick="myFunction()"></i></td>
+              <td>Brand wise Sales Views</td>
+          </tr>
+        </table>
+    </div>
+
+
+    <hr>
+    <div class="w3-container">
+      <h5>General Stats</h5>
+      <p>Sales Actuals vs Annual Target</p>
+      <div class="w3-grey">
+        <div class="w3-container w3-center w3-padding w3-green" style="width:65%">+65%</div>
+      </div>
+  
+      <p>Profit Margins vs Annual Targets</p>
+      <div class="w3-grey">
+        <div class="w3-container w3-center w3-padding w3-orange" style="width:73%">73%</div>
+      </div>
+  
+      <p>Staff Productivity vs Annual Targets</p>
+      <div class="w3-grey">
+        <div class="w3-container w3-center w3-padding w3-red" style="width:75%">75%</div>
+      </div>
+    </div>
+    <hr>
+  
+
+    <div class="w3-container">
+        <h5>Geography</h5>
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+          <tr>
+            <td>UAE</td>
+            <td>64.2%</td>
+          </tr>
+          <tr>
+            <td>Saudi Arabia</td>
+            <td>15.7%</td>
+          </tr>
+          <tr>
+            <td>Oman</td>
+            <td>5.6%</td>
+          </tr>
+          <tr>
+            <td>Bahrain</td>
+            <td>2.1%</td>
+          </tr>
+          <tr>
+            <td>Qatar</td>
+            <td>1.9%</td>
+          </tr>
+          <tr>
+            <td>Rest of World</td>
+            <td>1.5%</td>
+          </tr>
+        </table><br>
+        <button class="w3-button w3-dark-grey">More Branches &nbsp;<i class="fa fa-arrow-right"></i></button>
+      </div>
+      <hr>
+    
+      <div class="w3-container">
+          <h5>Recent Key Events</h5>
+          <ul class="w3-ul w3-card-4 w3-white">
+            <li class="w3-padding-16">
+              <span class="w3-xlarge">Airlines Contract Tender</span><br>
+            </li>
+            <li class="w3-padding-16">
+              <span class="w3-xlarge">Hotel Supplies</span><br>
+            </li>
+            <li class="w3-padding-16">
+              <span class="w3-xlarge">Distribution Center Moved</span><br>
+            </li>
+          </ul>
+        </div>
+        <hr>
+      
+
+
+  </div>   
+</div>      
+
+
 
 {% endblock content %}
+
+
+{% block javascript %}
+<script>
+function myFunction() {
+    vizWindow = window.open(url = "{% url 'viz-home' %}", name = "_blank", specs = "toolbar=no, titlebar=no, scrollbars=yes,resizable=yes,");
+    vizWindow.resizeTo(screen.availWidth, screen.availHeight);                             // Resizes the new window
+    vizWindow.focus();  
+}
+</script>
+{% endblock javascript %}

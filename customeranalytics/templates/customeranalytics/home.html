@@ -7,32 +7,122 @@
    {{block.super}}: Categories List
 {% endblock title %}
 
-{% block stylesheet %} 
-<style>
-body,h1 {font-family: "Raleway", sans-serif}
-body, html {height: 100%}
-.bgimg {
-    background-image: url("{% static '/img/webanalytics/forestbridge.jpg' %}");
-    min-height: 100%;
-    background-position: center;
-    background-size: cover;
-}
-</style>
-{% endblock stylesheet%}
+{% block stylesheet %}
+  {{block.super}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
+{% endblock stylesheet %}
 
 {% block content %}
+<div class="w3-container">
 
-<script type='text/javascript' src='http://dashboards.biznessanalytics.com/javascripts/api/viz_v1.js'>
-</script><div class='tableauPlaceholder' style='width: 1511px; height: 605px;'>
-  <object class='tableauViz' width='1511' height='605' style='display:none;'>
-    <param name='host_url' value='http%3A%2F%2Fdashboards.biznessanalytics.com%2F' /> 
-    <param name='embed_code_version' value='2' /> 
-    <param name='site_root' value='&#47;t&#47;Misterbaker' />
-    <param name='name' value='CategoryDashboards_Beta&#47;CategorySalesProgression' />
-    <param name='tabs' value='yes' /><param name='toolbar' value='yes' />
-    <param name='showAppBanner' value='false' />
-    <param name='showShareOptions' value='true' />
-  </object>
+  <div >
+    <h2>
+        Sales Analytics"
+    </h2>
+
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </p>
+    
+  </div>
+
+  <div class="class="w3-panel w3-padding-32"">
+    <h2>
+        Sales Analytics
+    </h2>
+    
+    <table class="table table-hover">
+    <thead>
+    <td></td>
+    <td> <h2 class="text-primary"> Description </h2></td>
+    <td> <h2 class="text-info">Link</h2> </td>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>
+            <h2 style="font-size: 20px"> Company Sales Analytics </h2>
+        </td>
+        <td>
+          <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+        </td>
+        <td>
+                  <i class="fa fa-bar-chart" style="font-size:60px;color:green;" onclick="myFunction()"></i>
+        </td>
+      </tr>
+
+      <tr>
+          <td>
+              <h2 style="font-size: 20px"> Products and Channel Analytics </h2>
+          </td>
+          <td>
+            <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </td>
+          <td>
+                    <i class="fa fa-pie-chart" style="font-size:60px;color:green;" onclick="myFunction()"></i>
+          </td>
+        </tr>
+
+        <tr>
+            <td>
+                <h2 style="font-size: 20px;"> Market & Competitors Analytics </h2> 
+            </td>
+            <td>
+              <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </td>
+            <td>
+                      <i class="fa fa-area-chart" style="font-size:60px;color:green;" onclick="myFunction()"></i>
+            </td>
+          </tr>
+
+          <tr>
+              <td>
+                  <h2 style="font-size: 20px;"> Pricing Analytics </h2>
+              </td>
+              <td>
+                <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+              </td>
+              <td>
+                        <i class="fa fa-line-chart" style="font-size:60px;color:green;" onclick="myFunction()"></i>
+              </td>
+            </tr>
+
+    </tbody>
+    </table>
+
+  </div>
+
 </div>
 
 {% endblock content %}
+
+
+{% block javascript %}
+<script>
+function myFunction() {
+    vizWindow = window.open(url = "{% url 'viz-home' %}", name = "_blank", specs = "toolbar=no, titlebar=no, scrollbars=yes,resizable=yes,");
+    vizWindow.resizeTo(screen.availWidth, screen.availHeight);                             // Resizes the new window
+    vizWindow.focus();  
+}
+</script>
+{% endblock javascript %}

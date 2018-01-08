@@ -34,4 +34,75 @@
     </tbody>
 </table>
 
-{% endblock %}
+
+<h3>Title: {{ basecommodity }}</h3>
+
+    <p><strong>commodity:</strong> {{ basecommodity }}</p> <!-- author detail link not yet defined -->
+
+
+    <div class="card mb-2">
+        <div class="card-body p-3">
+          <div class="row mb-3">
+            <div class="col-10">
+                <H1>Historical Price Evolution</H1>
+                <div style="height: 450px" id="chart_div_json"></div>
+            </div>
+            <div class="col-2 text-right">
+              <small class="text-muted">some text</small>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+
+      <div class="card mb-2">
+          <div class="card-body p-3">
+            <div class="row mb-3">
+              <div class="col-10">
+                  <H1>Price Table</H1>
+                  <div id="table_div_json"></div>
+              </div>
+              <div class="col-2 text-right">
+                <small class="text-muted">some text</small>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+
+
+{% endblock content %}
+
+
+{% block footer %}
+<h2> Category Footer </h2>
+{{block.super}}
+{% endblock footer %}
+
+
+{% block javascript %} 
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+
+<script>
+        google.load("visualization", "1", {packages:["table", "line"]});
+        google.setOnLoadCallback(drawTable);
+        function drawTable() {
+
+        var value_table = new google.visualization.Table(document.getElementById('table_div_json'));
+        var table_data = new google.visualization.DataTable({{dataset|safe}});
+        value_table.draw(table_data, {showRowNumber: true});
+
+
+        var line_chart = new google.charts.Line(document.getElementById('chart_div_json'));
+        var line_chart_data = new google.visualization.DataTable({{dataset|safe}});
+
+        var options = {
+            title: 'Purchase Benchmarking',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+            }
+
+        line_chart.draw(line_chart_data, google.charts.Line.convertOptions(options));
+        }
+</script>
+{% endblock javascript %}

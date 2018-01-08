@@ -10,6 +10,8 @@
 
 {% block content %}
 
+
+
   {% if purchasecommodity_list %}
   <table class="table table-striped mb-4">
     <thead class="thead-inverse">
@@ -25,7 +27,7 @@
         <tr>
           <td>
             <p class="mb-0">
-              <a href="{% url 'purchase-commodity-detail' commodity.pk %}">{{ commodity.name }}</a>
+              <a href="{{ commodity.get_absolute_url }}">{{ commodity.name }}</a>
             </p>
           </td>
           <td>Commodity</td>

@@ -4,4 +4,5 @@ from salesanalytics import views
 
 urlpatterns = [
     url(r'^$', views.SalesAnalyticsHome, name='sales-analytics-home'),
+    url(r'^viz$', views.VizHome, name='viz-home'),
 ]

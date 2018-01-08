@@ -5,19 +5,9 @@
    {{block.super}}: Categories List
 {% endblock title %}
 
-{% block breadcrumb %}
-<li class="breadcrumb-item"><a href="{% url 'bakery-portal-index' %}">Commodity Analytics Home</a></li>
-<li class="breadcrumb-item"><a href="#">Purchasing Home</a></li>
-<li class="breadcrumb-item active">Base Commodities</li>
-{% endblock breadcrumb %}
 
 
 {% block content %}
-
-    <div class="mb-4 text-right">
-        <a href="{% url 'benchmark-commodity' 1 2 %}" class="btn btn-primary">Benchmark against internal purchase</a>
-    </div>
-
 
     <h3>Title: {{ basecommodity }}</h3>
 

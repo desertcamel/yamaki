@@ -5,6 +5,8 @@ import pandas as pd
 from datetime import datetime
 from datetime import date
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.urls import reverse
+
 
 class Category (models.Model):
     name = models.CharField(max_length=25)
@@ -16,6 +18,9 @@ class Category (models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('category-detail', args=[str(self.id)])        
 
 class BaseCommodity(models.Model):
     name = models.CharField(max_length=25, null=False)
@@ -30,6 +35,12 @@ class BaseCommodity(models.Model):
 
     #
     last_updated = models.DateTimeField(default=date(2000, 1, 1))
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('base-commodity-detail', args=[str(self.id)])      
 
     def needs_update(self):
         time_since_last_update = date.today() - self.last_updated.date()
@@ -71,13 +82,7 @@ class BaseCommodity(models.Model):
             return True # Updated
 
         return False # Not updated
-
-
-
-
-    def __str__(self):
-        return self.name
-
+  
 
 # Purchase Commodity
 class PurchaseCommodity(models.Model):
@@ -95,6 +100,12 @@ class PurchaseCommodity(models.Model):
     benchmark2 = models.ForeignKey(BaseCommodity, on_delete=models.SET_NULL, null=True, related_name='benchmark_2')
     benchmark3 = models.ForeignKey(BaseCommodity, on_delete=models.SET_NULL, null=True, related_name='benchmark_3')
 
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('purchase-commodity-detail', args=[str(self.id)])      
+
     def update_values(self, entries):
         for entry in entries:
             ts = TimeSeries.objects.get_or_create(
@@ -106,8 +117,7 @@ class PurchaseCommodity(models.Model):
                 value = entry['value']
                 )
 
-    def __str__(self):
-        return self.name
+
 
 # Data Records
 class TimeSeries(models.Model):
@@ -124,4 +134,5 @@ class TimeSeries(models.Model):
     date = models.DateTimeField()
     value = models.FloatField()
 
-    
+    def get_absolute_url(self):
+        return reverse('time-series-detail', args=[str(self.id)])       

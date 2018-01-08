@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 import datetime
 from datetime import timedelta
+from datetime import datetime
+from datetime import date
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import permission_required
@@ -25,19 +27,15 @@ import quandl
 import pandas as pd
 import numpy as np
 import gviz_api
-from datetime import datetime
-from datetime import date
-# Create your views here.
 
+# Create your views here.
 
 class CommodityHome(generic.ListView):
     model = Category
     template_name = 'CommodityTracker/purchasing_home.html'
 
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
         context['category_list'] = Category.objects.all()
         context['purchasecommodity_list'] = PurchaseCommodity.objects.all()
         return context
@@ -46,31 +44,15 @@ class CommodityHome(generic.ListView):
         return Category.objects.all().order_by('name')
 
 
-def PurchasingIndexView(request):
-    return render( request, 'CommodityTracker/purchasing_home.html',)
-
-def index(request):
-    return render( request, 'CommodityTracker/commodity_index.html',)
-
-
-def CommodityBenchmarkView(request, base_pk, bench_pk):
-    return render( request, 'CommodityTracker/commodity_benchmark.html',)
-
-
-# Company
-class CommodityListView(generic.ListView):
-    model = Category
-    template_name = 'CommodityTracker/commodity_list.html'
-
-    def get_queryset(self):
-        return Category.objects.all().order_by('name')
-
 class CategoryListView(generic.ListView):
     model = Category
     template_name = 'CommodityTracker/category_list.html'
 
     def get_queryset(self):
         return Category.objects.all().order_by('name')
+
+class CategoryDetailView(generic.DetailView):
+    model = Category
 
 class BaseCommodityListView(generic.ListView):
     model = BaseCommodity
@@ -79,60 +61,45 @@ class BaseCommodityListView(generic.ListView):
     def get_queryset(self):
         return BaseCommodity.objects.all().order_by('name')
 
-class PurchaseCommodityListView(generic.ListView):
-    model = PurchaseCommodity
-    template_name = 'CommodityTracker/purchasecommodity_list.html'
-
-    def get_queryset(self):
-        return PurchaseCommodity.objects.all().order_by('name')
-
-class TimeSeriesListView(generic.ListView):
-    model = TimeSeries
-    template_name = 'CommodityTracker/timeseries_list.html'
-
-    def get_queryset(self):
-        return TimeSeries.objects.all()
-
-class CategoryDetailView(generic.DetailView):
-    model = Category
 
 
-
-def PurchaseCommodityDetailView(request, pk):
-    template = 'CommodityTracker/commodity_benchmark.html'
-    purchase_commodity = PurchaseCommodity.objects.get(pk=pk)
-    json_output = _purchase_commodity_util(purchase_commodity)
-
-    context = {'purchasecommodity': purchase_commodity, 'dataset': json_output}
-    # Render the HTML template index.html with the data in the context variable.
-    return render(request, template, context)
-
-
-
-
-
-
-
-class TimeSeriesDetailView(generic.DetailView):
-    model = TimeSeries
-
-class CategoryCreateView(generic.CreateView):
-    model = Category
-    success_url = reverse_lazy('commodities-list')
-    template_name = 'CommodityTracker/category_create.html'
-    fields = '__all__'
-
-
-
-class CommodityCreateView(generic.DetailView):
+class BaseCommodityDetailView(generic.DetailView):
+    template = 'CommodityTracker/basecommodity_detail.html'
     model = BaseCommodity
 
+    def get_context_data(self, **kwargs):
+        context = super(BaseCommodityDetailView, self).get_context_data(**kwargs)
+        base_commodity = self.object
+
+        # if required, update the dataset
+        if base_commodity.needs_update():
+            status = base_commodity.update_data()
+    #        print ("Update status: " + status)
+
+        # Fetch from database
+        ts_queryset = TimeSeries.objects.filter(base_commodity=base_commodity)
+        # Convert to json
+        l = []
+        for ts in ts_queryset:
+            l.append ([ts.date, ts.value])
+        
+        lod = ([{'date': datetime.combine(date, datetime.min.time()), 'value': value} for date, value in l])
+
+        # Loading it into gviz_api.DataTable
+        desc = {'date': ('datetime', 'Date'), 'value': ('number', 'Value')}
+        data_table = gviz_api.DataTable(desc)
+        data_table.LoadData(lod)
+
+        # Creating a JSon string
+        json_output = data_table.ToJSon(columns_order=("date", "value"),
+                                order_by="date")
 
 
+        context ['dataset'] = json_output
+        return context
 
 
-
-def BaseCommodityDetailView(request, pk):
+def _BaseCommodityDetailView(request, pk):
     template = 'CommodityTracker/basecommodity_detail.html'
     base_commodity = BaseCommodity.objects.get(pk=pk)
 #    print (base_commodity)
@@ -141,7 +108,6 @@ def BaseCommodityDetailView(request, pk):
     if base_commodity.needs_update():
         status = base_commodity.update_data()
 #        print ("Update status: " + status)
-
 
     # Fetch from database
     ts_queryset = TimeSeries.objects.filter(base_commodity=base_commodity)
@@ -168,6 +134,26 @@ def BaseCommodityDetailView(request, pk):
 
 
 
+def PurchasingIndexView(request):
+    return render( request, 'CommodityTracker/purchasing_home.html',)
+
+class PurchaseCommodityListView(generic.ListView):
+    model = PurchaseCommodity
+    template_name = 'CommodityTracker/purchasecommodity_list.html'
+
+    def get_queryset(self):
+        return PurchaseCommodity.objects.all().order_by('name')
+
+class PurchaseCommodityDetailView(generic.DetailView):
+    template = 'CommodityTracker/purchasecommodity_detail.html'
+    model = PurchaseCommodity
+
+    def get_context_data(self, **kwargs):
+        context = super(PurchaseCommodityDetailView, self).get_context_data(**kwargs)
+        purchase_commodity = self.object
+        json_output = _purchase_commodity_util(purchase_commodity)
+        context ['dataset'] = json_output
+        return context
 
 
 
@@ -185,8 +171,42 @@ def BaseCommodityDetailView(request, pk):
 
 
 
+class PurchaseCommodityCreate(CreateView):
+    model = PurchaseCommodity
+    template_name = 'CommodityTracker/generic_form.html'
+    form_class = PurchaseCommodityForm
 
 
+    def form_valid(self, form):
+        print ('posted something. let us add logic to save file')
+        self.object = form.save(commit=False)
+        self.object.last_updated = date.today()
+
+        self.object.name = form.cleaned_data['name']
+        self.object.description = form.cleaned_data['description'] 
+        self.object.company_name = form.cleaned_data['company_name']
+        self.object.last_updated = date.today()
+        self.object.weight1 = form.cleaned_data['weight1']
+        self.object.weight2 = form.cleaned_data['weight2']
+        self.object.weight3 = form.cleaned_data['weight3']
+        self.object.benchmark1 = form.cleaned_data['benchmark1']
+        self.object.benchmark2 = form.cleaned_data['benchmark2']
+        self.object.benchmark3 = form.cleaned_data['benchmark3']
+
+        self.object.save()
+        super().form_valid(form)
+
+        process_data(self.request.FILES['commodity_purchase_data'], self.object)
+
+        json_output = _purchase_commodity_util(self.object)
+        context = {'purchasecommodity': self.object, 'dataset': json_output}
+
+        return render(self.request, "CommodityTracker/purchasecommodity_detail.html", context)
+
+
+
+
+# YES
 def purchase_commodity_form(request):
     template = 'CommodityTracker/purchase_commodity_form.html'
 
@@ -211,7 +231,7 @@ def purchase_commodity_form(request):
             json_output = _purchase_commodity_util(purchase_commodity)
             context = {'purchasecommodity': purchase_commodity, 'dataset': json_output}
 
-            return render(request, "CommodityTracker/commodity_benchmark.html", context)
+            return render(request, "CommodityTracker/purchasecommodity_detail.html", context)
     else:
         form = PurchaseCommodityForm()
 
@@ -345,7 +365,7 @@ def _purchase_commodity_util(purchase_commodity):
 Admin accessible init functions
 
 """
-
+# YES
 def app_init(request):
     # CREATE BASIC MODELS AND INSTANTIATE WITH VALUES
 
