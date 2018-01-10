@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from .models import Category, BaseCommodity, PurchaseCommodity, TimeSeries
+from .models import Category, BaseCommodity, PurchaseCommodity, BaseCommodityRecords, PurchaseCommodityRecords
 from CommodityTracker.forms import PurchaseCommodityForm
 
 import logging
@@ -77,7 +77,7 @@ class BaseCommodityDetailView(generic.DetailView):
     #        print ("Update status: " + status)
 
         # Fetch from database
-        ts_queryset = TimeSeries.objects.filter(base_commodity=base_commodity)
+        ts_queryset = BaseCommodityRecords.objects.filter(base_commodity=base_commodity)
         # Convert to json
         l = []
         for ts in ts_queryset:
@@ -110,7 +110,7 @@ def _BaseCommodityDetailView(request, pk):
 #        print ("Update status: " + status)
 
     # Fetch from database
-    ts_queryset = TimeSeries.objects.filter(base_commodity=base_commodity)
+    ts_queryset = BaseCommodityRecords.objects.filter(base_commodity=base_commodity)
     # Convert to json
     l = []
     for ts in ts_queryset:
@@ -159,18 +159,6 @@ class PurchaseCommodityDetailView(generic.DetailView):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 class PurchaseCommodityCreate(CreateView):
     model = PurchaseCommodity
     template_name = 'CommodityTracker/generic_form.html'
@@ -178,7 +166,7 @@ class PurchaseCommodityCreate(CreateView):
 
 
     def form_valid(self, form):
-        print ('posted something. let us add logic to save file')
+        print ('###############posted something. let us add logic to save file')
         self.object = form.save(commit=False)
         self.object.last_updated = date.today()
 
@@ -199,63 +187,41 @@ class PurchaseCommodityCreate(CreateView):
         process_data(self.request.FILES['commodity_purchase_data'], self.object)
 
         json_output = _purchase_commodity_util(self.object)
+        json_output = {}
         context = {'purchasecommodity': self.object, 'dataset': json_output}
 
-        return render(self.request, "CommodityTracker/purchasecommodity_detail.html", context)
-
-
-
-
-# YES
-def purchase_commodity_form(request):
-    template = 'CommodityTracker/purchase_commodity_form.html'
-
-    if request.method == 'POST':
-        form = PurchaseCommodityForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            purchase_commodity = PurchaseCommodity(name = form.cleaned_data['name'],
-                                                    description = form.cleaned_data['description'], 
-                                                    company_name = form.cleaned_data['company_name'],
-                                                    last_updated = date.today(),
-                                                    weight1 = form.cleaned_data['weight1'],
-                                                    weight2 = form.cleaned_data['weight2'],
-                                                    weight3 = form.cleaned_data['weight3'],
-                                                    benchmark1 = form.cleaned_data['benchmark1'],
-                                                    benchmark2 = form.cleaned_data['benchmark2'],
-                                                    benchmark3 = form.cleaned_data['benchmark3'],
-        )
-            purchase_commodity.save()
-            process_data(request.FILES['commodity_purchase_data'], purchase_commodity)
-
-            json_output = _purchase_commodity_util(purchase_commodity)
-            context = {'purchasecommodity': purchase_commodity, 'dataset': json_output}
-
-            return render(request, "CommodityTracker/purchasecommodity_detail.html", context)
-    else:
-        form = PurchaseCommodityForm()
-
-    return render(request, template, {'form': form})
-
+        return super().form_valid(form)
 
 
 
 def process_data(upfile, purchase_commodity):
-    csv = pd.read_csv(upfile, header = 0, names = ['Date', 'Value'], 
-                        dtype= {'Date': datetime, 'Value': float}, 
-                        index_col=0
-    )
+    error_msg = ''
+    input_file = pd.read_csv(upfile)
 
-    for index, value in csv.iterrows():
-        try:
-            ts = TimeSeries.objects.create( is_purchase_commodity = True,
-                                            purchase_commodity = purchase_commodity,
-                                            date = index,
-                                            value = value,
-            )
-        except Exception as e:
-            print (e)
-    return
+    input_file.columns = [x.lower().strip() for x in input_file.columns]
+    headers = list(input_file.columns.values)
+
+    # Check Headers
+    if ('date' not in headers):
+        error_msg = ','.join(['date column non existent'])
+    if ('value' not in headers):
+        error_msg = ','.join([error_msg, 'value column non existent'])
+
+    if (error_msg is not ''):
+        print ('Error Message:' + error_msg)
+        return
+
+    # Clean and load data
+    input_file['date'] = input_file['date'].apply(pd.to_datetime, errors='coerce')
+    input_file['value'] = input_file['value'].apply(pd.to_numeric, errors='coerce')
+    input_file.dropna(subset=['date'], inplace=True)
+    input_file['value'].fillna(method='ffill', inplace=True)
+    input_file['value'].fillna('0', inplace=True) # if initial values were empty
+
+    dict_list = input_file.to_dict('records')
+    for row in dict_list:
+        purchase_commodity.update_values(date = row['date'], value = row['value'])
+
 
 
 def _purchase_commodity_util(purchase_commodity):
@@ -271,7 +237,7 @@ def _purchase_commodity_util(purchase_commodity):
     weight3 = purchase_commodity.weight3/100
 
     # Benchmark commodity 1
-    b1_queryset = TimeSeries.objects.filter(base_commodity=purchase_commodity.benchmark1)
+    b1_queryset = BaseCommodityRecords.objects.filter(base_commodity=purchase_commodity.benchmark1)
     bench_frame1 = pd.DataFrame.from_records(b1_queryset.values('date', 'value')).set_index('date')
     bench_frame1.columns = [bench_name1]
     bench = bench_frame1
@@ -281,7 +247,7 @@ def _purchase_commodity_util(purchase_commodity):
 
     if weight2 != 0:
         # Benchmark commodity 2
-        b2_queryset = TimeSeries.objects.filter(base_commodity=purchase_commodity.benchmark2)
+        b2_queryset = BaseCommodityRecords.objects.filter(base_commodity=purchase_commodity.benchmark2)
         bench_frame2 = pd.DataFrame.from_records(b2_queryset.values('date', 'value')).set_index('date')
         bench_frame2.columns = [bench_name2]
         bench = bench.join(bench_frame2)
@@ -292,7 +258,7 @@ def _purchase_commodity_util(purchase_commodity):
 
     if weight3 != 0:
         # Benchmark commodity 3
-        b3_queryset = TimeSeries.objects.filter(base_commodity=purchase_commodity.benchmark3)
+        b3_queryset = BaseCommodityRecords.objects.filter(base_commodity=purchase_commodity.benchmark3)
         bench_frame3 = pd.DataFrame.from_records(b3_queryset.values('date', 'value')).set_index('date')
         bench_frame3.columns = [bench_name3]
         bench = bench.join(bench_frame3)
@@ -304,7 +270,7 @@ def _purchase_commodity_util(purchase_commodity):
     bench['composite'] = bench[bench_name1]*(weight1) + bench[bench_name2]*(weight2) + bench[bench_name3]*(weight3)
 
     # Extract Purchase Commodity Data
-    pc_queryset = TimeSeries.objects.filter(purchase_commodity=purchase_commodity)
+    pc_queryset = PurchaseCommodityRecords.objects.filter(purchase_commodity=purchase_commodity)
     purchase_frame = pd.DataFrame.from_records(pc_queryset.values('date', 'value')).set_index('date')
     purchase_frame.columns = [purchase_commodity_name]
 
@@ -396,6 +362,6 @@ def app_init(request):
         new_base_commodity.update_data()
 #    print ('udpate completed')
 
-    return render( request, 'CommodityTracker/test_page.html',)
+    return render( request, 'CommodityTracker/purchasing_home.html',)
 
 

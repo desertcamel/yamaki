@@ -4,11 +4,10 @@
     <h3>Occassion List</h3>
 
     {% if occassion_list %}
-    <ul>
-
+    <ul class="w3-ul w3-card-4 w3-hoverable">
       {% for occassion in occassion_list %}
       <li>
-        <a href="{% url 'occassion-detail' occassion.id %}">{{ occassion }}</a> ({{occassion}})
+        <a href="{{occassion.get_absolute_url}}">{{ occassion }}</a> 
       </li>
       {% endfor %}
 

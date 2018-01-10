@@ -19,8 +19,7 @@ urlpatterns += [
 urlpatterns += [
     url(r'purchase_commodities/$', views.PurchaseCommodityListView.as_view(), name='purchase-commodity-list'),
     url(r'purchase_commodity/(?P<pk>\d+)$', views.PurchaseCommodityDetailView.as_view(), name='purchase-commodity-detail'),
-    url(r'purchasingform/$', views.purchase_commodity_form, name='purchasing-form'),
-    url(r'^purchase_commodity_create/$', views.PurchaseCommodityCreate.as_view(), name='test'),
+    url(r'^purchase_commodity_create/$', views.PurchaseCommodityCreate.as_view(), name='purchase-commodity-add'),
 ]
 
 # Admin Functions

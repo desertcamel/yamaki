@@ -64,14 +64,10 @@ class BaseCommodity(models.Model):
 
             try:
                 for index, row in entries.iterrows():
-                    ts = TimeSeries()
-                    ts.is_base_commodity = True
+                    ts = BaseCommodityRecords()
                     ts.base_commodity = self
-                    ts.is_purchase_commodity = False
-                    ts.purchase_commodity = None
                     ts.date = index
                     ts.value = row['Value']
-                    
                     ts.save()
 #                    print (ts)
             except Exception as e:
@@ -106,33 +102,37 @@ class PurchaseCommodity(models.Model):
     def get_absolute_url(self):
         return reverse('purchase-commodity-detail', args=[str(self.id)])      
 
-    def update_values(self, entries):
-        for entry in entries:
-            ts = TimeSeries.objects.get_or_create(
-                is_base_commodity = False,
-                base_commodity = None,
-                is_purchase_commodity = True,
-                purchase_commodity = self,
-                date = entry['date'],
-                value = entry['value']
-                )
+    def update_values(self, date, value):
+        #print ('data types: date: {}, value: {}'.format(type(date), type(value)))
+        ts, exists = PurchaseCommodityRecords.objects.get_or_create(
+                                                    purchase_commodity = self,
+                                                    date = date,
+                                                    value = value
+        )
+        if exists:
+            print ('record already existing')
+        else:
+            print ('new record created') 
 
 
 
 # Data Records
-class TimeSeries(models.Model):
-    is_base_commodity = models.BooleanField(default=False)
-    base_commodity = models.ForeignKey(BaseCommodity, on_delete=models.SET_NULL, 
-                                        null=True, related_name='records'
-                                        )
-
-    is_purchase_commodity = models.BooleanField(default=False)
-    purchase_commodity = models.ForeignKey(PurchaseCommodity, on_delete=models.SET_NULL, 
-                                            null=True, related_name='records'
-                                        )
-
+class CommodityRecords(models.Model):
     date = models.DateTimeField()
     value = models.FloatField()
 
-    def get_absolute_url(self):
-        return reverse('time-series-detail', args=[str(self.id)])       
+
+# Data Records
+class BaseCommodityRecords(CommodityRecords):
+    base_commodity = models.ForeignKey(BaseCommodity, on_delete=models.SET_NULL, 
+                                        null=True, related_name='records'
+                                        )
+   
+
+# Data Records
+class PurchaseCommodityRecords(CommodityRecords):
+    purchase_commodity = models.ForeignKey(PurchaseCommodity, on_delete=models.SET_NULL, 
+                                            null=True, related_name='records'
+                                        )
+ 
+

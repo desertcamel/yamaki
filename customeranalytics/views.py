@@ -82,6 +82,7 @@ def index(request):
 # Company
 class CompanyListView(generic.ListView):
     model = Company
+    template_name = 'celebration/company_list.html'
     paginate_by = 5
 
     def get_queryset(self):
@@ -89,54 +90,22 @@ class CompanyListView(generic.ListView):
 
 class CompanyDetailView(generic.DetailView):
     model = Company
-
-class CompanyCreate(CreateView):
-    model = Company
-    fields = '__all__'
-
-class CompanyUpdate(UpdateView):
-    model = Company
-    fields = '__all__'
-
-class CompanyDelete(DeleteView):
-    model = Company
-    success_url = reverse_lazy('index')
+    template_name = 'celebration/company_list.html'
 
 
 
 # Branch
 from django.db.models import Count
 
-def  branch_list(request):
-    template = 'celebration/branch_list.html'
-    branch_list = Branch.objects.order_by('branch_name')
-    
-    sample_data = [['Branch', 'Count']]
-    branches = Branch.objects.values('branch_name', order_count=Count('order')).order_by('order_count')
-
-    for b in branches:
-        sample_data3 = [[b['branch_name'], b['order_count']]]
-        sample_data += sample_data3
-
-    # create context to pass 
-    context = {
-        'branch_list': branch_list,
-        'data_table': json.dumps(sample_data),
-    }
-    # Render the HTML template index.html with the data in the context variable.
-    return render(request, template, context)
-
-
-
-
-
-
-
+class  BranchListView(generic.ListView):
+    model = Branch
+    template_name = 'celebration/branch_list.html'
 
 
 
 class BranchDetailView(generic.DetailView):
     model = Branch
+    template_name = 'celebration/branch_detail.html'
 
 
 class BranchCreate(CreateView):
@@ -164,18 +133,8 @@ def  customer_list(request):
     page = request.GET.get('page')
     customer_list = paginator.get_page(page)
 
-
-    sample_data = [['Customer', 'Count']]
-    customers = Customer.objects.values('customer_name', order_count=Count('order')).order_by('order_count')
-
-    for b in customers:
-        sample_data3 = [[b['customer_name'], b['order_count']]]
-        sample_data += sample_data3
-
-    # create context to pass 
     context = {
         'customer_list': customer_list,
-        'data_table': json.dumps(sample_data),
     }
     # Render the HTML template index.html with the data in the context variable.
     return render(request, template, context)
@@ -184,6 +143,7 @@ def  customer_list(request):
 
 class CustomerDetailView(generic.DetailView):
     model = Customer
+    template_name = 'celebration/customer_detail.html'
 
 
 # Update Customers
@@ -223,7 +183,7 @@ def update_customers(request):
 # Occassion
 class OccassionListView(generic.ListView):
     model = Occassion
-    template_name = 'celebration/order_list.html'
+    template_name = 'celebration/occassion_list.html'
     paginate_by = 200
 
     def get_queryset(self):
@@ -231,6 +191,7 @@ class OccassionListView(generic.ListView):
 
 class OccassionDetailView(generic.DetailView):
     model = Occassion
+    template_name = 'celebration/occassion_detail.html'
 
 
 
@@ -247,6 +208,7 @@ class OrderListView(generic.ListView):
 
 class OrderDetailView(generic.DetailView):
     model = Order
+    template_name = 'celebration/order_detail.html'
 
 
 # FORMS HANDLING
@@ -341,33 +303,18 @@ def process_data(upfile):
 
     dict_list = xls.to_dict('records')
 
+
     for i in dict_list:
-        print ('$$%$%$%%&####### PARSING DICT ##################')
         try:
             # Create order 
             new_order, created = Order.objects.get_or_create(Order_No__exact=i['Order_No'])
             if created:
-                print ('############# NEW ORDER ENTRY START ##################')
-                new_order.Company, c0 = Company.objects.get_or_create(
-                    company_name = company_name,
-                )
-                new_order.Order_No = i['Order_No']
-                new_order.Order_Date = i['Order_Date']
-                new_order.Total_Amount = i['Total_Amount']
-                new_order.Customer, c1 = Customer.objects.get_or_create(
-                                    phone_number = i['Contact_No'],
-                                    customer_name = i['Customer_Name']
-                                    )
-                new_order.Occassion, c2 = Occassion.objects.get_or_create(occassion_name = i['Occassion'])
-                new_order.Branch, c3 = Branch.objects.get_or_create(branch_name = i['Branch'], company_name = new_order.Company )
-
-                new_order.save()
-                print ('converted'+str(i))
-            else:
-                print ('entry already exists')
+                new_order.create_order(i, company_name)
         except Exception as e:
             print ('error')
             print (e)
+            continue
+
 
 
 
@@ -406,3 +353,141 @@ def update_profile(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def _1_process_data(upfile):
+
+    import pandas as pd
+
+    xls = pd.read_excel(upfile)
+
+    company_name = 'Misterbaker LLC'
+
+    branch_alias_dict = {
+        'KMA': 'Karama'
+    }
+
+
+    occassion_alias_dict = {
+        'H/B': 'Birthday', 
+        'HB': 'Birthday', 
+        'hb': 'Birthday', 
+        'ANN': 'Anniversary', 
+        'ANNIV': 'Anniversary', 
+        'ANNIV.': 'Anniversary',
+        'ANNNI': 'Anniversary',
+        'ANNIV.': 'Anniversary',
+        'ANNIVERSARY': 'Anniversary',
+        'B TRANS': 'Branch Transfer',
+        'B.TRANS.': 'Branch Transfer',
+        'B TRANSFER': 'Branch Transfer',
+        'B. TRANSFER': 'Branch Transfer',
+        'B.T': 'Branch Transfer',
+        'B.TRANSFER': 'Branch Transfer',
+        'B/TRANS': 'Branch Transfer',
+        'BT': 'Branch Transfer',
+    }
+
+    col_name_map = {
+        'Branch': 'Branch',
+        'Order Date': 'Order_Date',
+        'Delivery Date': 'Delivery_Date',
+        'Customer Name': 'Customer_Name',
+        'Order #': 'Order_No', 
+        'Contact #': 'Contact_No', 
+        'Total Amount': 'Total_Amount', 
+        'Remarks': 'Occassion',
+    }
+
+    xls=xls.rename(columns=col_name_map, index=str)
+
+    xls = xls[['Branch', 'Order_Date', 'Delivery_Date', 'Customer_Name', 'Order_No', 'Contact_No', 'Total_Amount', 'Occassion']]
+
+    # Clean Data
+    xls.dropna(subset=['Contact_No'], inplace=True) 
+    xls['Occassion'] = xls['Occassion'].fillna('Not Mentioned')
+    xls['Total_Amount'] = xls['Total_Amount'].fillna(0)
+    xls['Order_Date'] = xls['Order_Date'].fillna(method='ffill')
+    xls['Delivery_Date'] = xls['Delivery_Date'].fillna(method='ffill')
+    xls['Branch'] = xls['Branch'].fillna(method='ffill')
+    
+
+    xls[['Order_Date']] = xls[['Order_Date']].apply(pd.to_datetime, errors='coerce')
+    xls[['Order_No', 'Contact_No', 'Total_Amount',]] = xls[['Order_No', 'Contact_No', 'Total_Amount',]].apply(pd.to_numeric, errors='coerce')
+
+    xls['Contact_No'] = xls['Contact_No'].fillna(0.0).astype(int)
+
+    xls['Branch'] = xls['Branch'].replace(branch_alias_dict)
+    xls['Occassion'] = xls['Occassion'].replace(occassion_alias_dict)
+
+
+    dict_list = xls.to_dict('records')
+
+    for i in dict_list:
+        print ('$$%$%$%%&####### PARSING DICT ##################')
+        try:
+            # Create order 
+            new_order, created = Order.objects.get_or_create(Order_No__exact=i['Order_No'])
+            if created:
+                print ('############# NEW ORDER ENTRY START ##################')
+                new_order.Company, c0 = Company.objects.get_or_create(
+                    company_name = company_name,
+                )
+                new_order.Order_No = i['Order_No']
+                new_order.Order_Date = i['Order_Date']
+                new_order.Total_Amount = i['Total_Amount']
+                new_order.Customer, c1 = Customer.objects.get_or_create(
+                                    phone_number = i['Contact_No'],
+                                    customer_name = i['Customer_Name']
+                                    )
+                new_order.Occassion, c2 = Occassion.objects.get_or_create(occassion_name = i['Occassion'])
+                new_order.Branch, c3 = Branch.objects.get_or_create(branch_name = i['Branch'], company_name = new_order.Company )
+
+                new_order.save()
+                print ('converted'+str(i))
+            else:
+                print ('entry already exists')
+        except Exception as e:
+            print ('error')
+            print (e)
+

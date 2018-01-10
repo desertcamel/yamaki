@@ -1,5 +1,46 @@
+
+{% extends "base_template.html" %}
+{% load widget_tweaks %}
+{% block stylesheet %} 
+<link rel="stylesheet" href="/static/css/style3.css">
+{% endblock stylesheet%}
+{% block title %}
+   {{block.super}}: Categories
+{% endblock title %}
+
+
+
+{% block content %}
+
+
+
 <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        {% include 'includes/form.html' %}
         <button type="submit" class="btn btn-success">Post</button>
-      </form>
+</form>
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% block footer %}
+
+{{block.super}}
+
+{% endblock footer %}
+
+
+
+

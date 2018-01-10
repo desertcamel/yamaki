@@ -28,6 +28,7 @@ from inventoryanalytics import views as inventoryanalytics_views
 from accountsanalytics import views as accountsanalytics_views
 from CommodityTracker import views as purchaseanalytics_views
 from boards import views as boards_views
+from hranalytics import views as hr_views
 
 #URL pattern mappings
 
@@ -43,6 +44,7 @@ urlpatterns += [
     url(r'^inventory/', include('inventoryanalytics.urls')),
     url(r'^commodity/', include('CommodityTracker.urls')),
     url(r'^sales/', include('accountsanalytics.urls')),
+    url(r'^hr/', include('hranalytics.urls')),
     url(r'^accounts/', include('accounts.urls')),    
     url(r'^forums/', include('boards.urls')),    
 ]

@@ -3,7 +3,15 @@ from django.shortcuts import render
 # Create your views here.
 
 def WebAnalyticsHome(request):
-    return render( request, 'webanalytics/home.html',)
+
+    context = {
+        'host_url' : 'http%3A%2F%2Fdashboards.biznessanalytics.com%2F',
+        'value' : 'GoogleAnalyticsDashboardBeta&#47;GooogleAnalyticsIntegrationDemo',
+        'site_root' : '&#47;t&#47;Misterbaker',
+        'name' : 'GoogleAnalyticsDashboardBeta&#47;GooogleAnalyticsIntegrationDemo',
+        'embed_code_version' : '2',
+    }    
+    return render( request, 'webanalytics/home.html', context)
 
 
 def VizHome(request):

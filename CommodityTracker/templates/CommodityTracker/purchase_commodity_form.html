@@ -13,7 +13,8 @@
         <div class="col-sm-4">
                 <form method="post" enctype="multipart/form-data" class="mb-4">
                         {% csrf_token %}
-                        {{ form }}
+                        {% include 'includes/form.html' %}
+
                         <button type="submit" class="btn btn-success">Post a reply</button>
                     </form>
         </div>

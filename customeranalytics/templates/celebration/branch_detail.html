@@ -5,12 +5,25 @@
 
   <p><strong>Branch:</strong> {{ branch }}</p> <!-- author detail link not yet defined -->
   <p><strong>Orders:</strong> 
-    {% for order in branch.order_set.all %} 
-        <hr>
-            <a href="{% url 'order-detail' order.id %}">{{ order.Customer }} ordered for AED {{ order.Total_Amount }} on {{ order.Order_Date }} </a>
 
-          
-    {% endfor %}
-    </p>  
+    <table class="w3-table">
+        <thead>
+            <th>Customer Name</th>
+            <th>Order Date</th>
+            <th>Order Amount</th>
+        </thead>
+
+        <tbody>
+            {% for order in branch.get_orders_sorted_by_date %}
+            <tr>
+                <td><a href="{{order.Customer.get_absolute_url}}"> {{ order.Customer }} </a></td>
+                <td><a href="{{order.get_absolute_url}}">{{ order.Order_Date }}</a></td>
+                <td><a href="{{order.get_absolute_url}}">{{ order.Total_Amount }}</a></td>
+            </tr> 
+            {% empty %}
+            {% endfor %}                
+        </tbody>
+    </table>
+
 
 {% endblock %}

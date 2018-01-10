@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'customeranalytics',
     'inventoryanalytics',
     'accountsanalytics',
+    'hranalytics',
     'boards',
 ]
 

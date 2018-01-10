@@ -10,6 +10,11 @@
 
 {% block content %}
 
+<div class="mb-4 text-right">
+    <a href="{% url 'app-init' %} " class="btn btn-primary">Add Base Commodities</a>
+</div>
+
+
 <div class="w3-padding-32" >
     <h3>  CATEGORIES AND BASE COMMODITIES  </h3>
     <p>
@@ -69,6 +74,9 @@
     {% endif %}       
 </div>
 
+<div class="mb-4 text-right">
+    <a href="{% url 'purchase-commodity-add' %} " class="btn btn-primary">Add Purchase Commodities</a>
+</div>
 <div class="w3-padding-32" >
     <h3>  CATEGORIES AND PURCHASE COMMODITIES  </h3>
     <p>

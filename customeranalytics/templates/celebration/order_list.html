@@ -1,21 +1,38 @@
 {% extends "base_template.html" %}
 
 {% block content %}
-    <h3>Order List</h3>
+<div class="w3-panel">
 
-    {% if order_list %}
-    <ul>
+  <h3>Order List</h3>
+  <a href="{% url 'data-upload' %}"> <button class="w3-btn w3-wide w3-red w3-right" > Upload Orders </button> </a>
 
-      {% for order in order_list %}
-      <li>
-          Customer: {{order.Customer}}  
-          Last Order Delivered on: {{order.Order_Date}} for AED {{order.Total_Amount}}
-          <hr>
-      </li>
-      {% endfor %}
+</div>
 
-    </ul>
-    {% else %}
-      <p>There are no orders to display!</p>
-    {% endif %}       
+<div class="w3-panel">
+
+  <table class="w3-table-all w3-card-4 ">
+    <thead>
+      <th> Company </th>
+      <th> Branch </th>
+      <th> Customer </th>
+      <th> Last Order Delivery Date </th>
+      <th> Order Amount </th>
+    </thead>
+      <tbody>
+            {% for order in order_list %}
+        <tr>
+            <td><a href=" {{order.Company.get_absolute_url}}"> {{order.Company}}</a> </td>
+            <td><a href=" {{order.Branch.get_absolute_url}}"> {{order.Branch}}</a> </td>
+            <td> <a href=" {{order.Customer.get_absolute_url}}"> {{order.Customer}} </a> </td>
+            <td>{{order.Order_Date}}</td>
+            <td>{{order.Total_Amount}}</td>
+        </tr>
+            {% empty %}
+              <p>There are no orders to display!</p>
+            {% endfor %}
+      </tbody>
+    </table>
+  
+
+</div>
 {% endblock %}

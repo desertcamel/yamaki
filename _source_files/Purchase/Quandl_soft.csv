@@ -1,0 +1,57 @@
+﻿API Source,Category,Commodity,Source,Code
+Quandl,GRAIN,"Barley, Western Canada (ODA)",ODA,ODA/PBARL_USD
+Quandl,GRAIN,"Barley, Western Canada (WB)",WORLDBANK,WORLDBANK/WLD_BARLEY
+Quandl,GRAIN,"Corn, Top Flight Grain Co-op",TFGRAIN,TFGRAIN/CORN
+Quandl,GRAIN,"Corn, CBOT Corn Futures",CME,CHRIS/CME_C1
+Quandl,GRAIN,"Corn, U.S. Gulf Imports",WORLDBANK,WORLDBANK/WLD_MAIZE
+Quandl,GRAIN,"Oats, CBOT Oats Futures",CME,CHRIS/CME_O1
+Quandl,GRAIN,"Rice, Thailand (ODA)",ODA,ODA/PRICENPQ_USD
+Quandl,GRAIN,"Rice, CBOT Rice Futures",CME,CHRIS/CME_RR1
+Quandl,GRAIN,"Rice, Top Flight Grain Co-op",TFGRAIN,TFGRAIN/SOYBEANS
+Quandl,GRAIN,"Soybean, CBOT Soybean Futures",CME,CHRIS/CME_S1
+Quandl,GRAIN,"Soybean, CBOT Soybean Meal Futures",CME,CHRIS/CME_SM1
+Quandl,GRAIN,"Wheat, Soybean Oil",WORLDBANK,WORLDBANK/WLD_SOYBEAN_OIL
+Quandl,GRAIN,"Wheat, CBOT Soybean Oil Futures",CME,CHRIS/CME_BO1
+Quandl,GRAIN,"Wheat, Gulf of Mexico",ODA,ODA/PWHEAMT_USD
+Quandl,GRAIN,"Wheat, CBOT Wheat Futures",CME,CHRIS/CME_W1
+Quandl,FARMS & FISHERIES,"Dairy, CME Milk Futures",CME,CHRIS/CME_DA1
+Quandl,FARMS & FISHERIES,"Cattle, Beef (ODA)",ODA,ODA/PBEEF_USD
+Quandl,FARMS & FISHERIES,"Cattle, CME Live Cattle Futures",CME,CHRIS/CME_LC1
+Quandl,FARMS & FISHERIES,"Cattle, CME Feeder Cattle Futures",CME,CHRIS/CME_FC1
+Quandl,FARMS & FISHERIES,"Cattle, Hides, Chicago (ODA)",ODA,ODA/PHIDE_USD
+Quandl,FARMS & FISHERIES,"Poulty, Chicken, Georgia (ODA)",ODA,ODA/PPOULT_USD
+Quandl,FARMS & FISHERIES,"Pork, Pork, Chicago (ODA)",ODA,ODA/PPORK_USD
+Quandl,FARMS & FISHERIES,"Pork, CME Lean Hog Futures",CME,CHRIS/CME_LN1
+Quandl,FARMS & FISHERIES,"Fats, Lamb",ODA,ODA/PLAMB_USD
+Quandl,FARMS & FISHERIES,Wool,ODA,ODA/PWOOLC_USD
+Quandl,FARMS & FISHERIES,Salmon,ODA,ODA/PSALM_USD
+Quandl,FARMS & FISHERIES,Shrimp,ODA,ODA/PSHRI_USD
+Quandl,FARMS & FISHERIES,Fishmeal,ODA,ODA/PFISH_USD
+Quandl,Agriculture Softs Prices,Arabica Coffee,ODA,ODA/PCOFFOTM_USD
+Quandl,Agriculture Softs Prices,Robusta Coffee,ODA,ODA/PCOFFROB_USD
+Quandl,Agriculture Softs Prices,Coffee Futures,ICE,CHRIS/ICE_KC1
+Quandl,Agriculture Softs Prices,Cocoa beans,ODA,ODA/PCOCO_USD
+Quandl,Agriculture Softs Prices,Cocoa Futures,ICE,CHRIS/ICE_CC1
+Quandl,Agriculture Softs Prices,Tobacco,WORLDBANK,WORLDBANK/WLD_TOBAC_US
+Quandl,Agriculture Softs Prices,Tea,ODA,ODA/PTEA_USD
+Quandl,Agriculture Softs Prices,"Tea, Mombasa auctions",WORLDBANK,WORLDBANK/WLD_TEA_MOMBASA
+Quandl,Agriculture Softs Prices,US Imports Sugar,ODA,ODA/PSUGAUSA_USD
+Quandl,Agriculture Softs Prices,Sugar No. 11 Futures,ICE,CHRIS/ICE_SB1
+Quandl,Fruits & Nuts,Groundnuts (Peanuts),ODA,ODA/PGNUTS_USD
+Quandl,Fruits & Nuts,Oranges,ODA,ODA/PORANG_USD
+Quandl,Fruits & Nuts,Orange Juice Futures,ICE,CHRIS/ICE_OJ1
+Quandl,Fruits & Nuts,Bananas,ODA,ODA/PBANSOP_USD
+Quandl,Fruits & Nuts,"Bananas, US",WORLDBANK,WORLDBANK/WLD_BANANA_US
+Quandl,Vegetable Oil Prices,Rapeseed Oil,ODA,ODA/PROIL_USD
+Quandl,Vegetable Oil Prices,Sunflower Oil,ODA,ODA/PSUNO_USD
+Quandl,Vegetable Oil Prices,Olive Oil,ODA,ODA/POLVOIL_USD
+Quandl,Vegetable Oil Prices,Palm Oil,ODA,ODA/PPOIL_USD
+Quandl,Vegetable Oil Prices,Palmkernal oil,WORLDBANK,WORLDBANK/WLD_PLMKRNL_OIL
+Quandl,Vegetable Oil Prices,Groundnut oil,WORLDBANK,WORLDBANK/WLD_GRNUT_OIL
+Quandl,Commodity Indexes,"Food Index, 2000=100",WORLDBANK,WORLDBANK/WLD_IFOOD
+Quandl,Commodity Indexes,"Beverages Index, 2000=100",WORLDBANK,WORLDBANK/WLD_IBEVERAGES
+Quandl,Commodity Indexes,"Non-energy commodities Index, 2000=100",WORLDBANK,WORLDBANK/WLD_INONFUEL
+Quandl,Commodity Indexes,"Fats and oils Index, 2000=100",WORLDBANK,WORLDBANK/WLD_IFATS_OILS
+Quandl,Commodity Indexes,"Agriculture Index, 2000=100",WORLDBANK,WORLDBANK/WLD_IAGRICULTURE
+Quandl,Commodity Indexes,"Grains Index, 2000=100",WORLDBANK,WORLDBANK/WLD_IGRAINS
+Quandl,Commodity Indexes,"Other food Index, 2000=100",WORLDBANK,WORLDBANK/WLD_IOTHERFOOD
